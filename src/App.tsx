@@ -1,10 +1,14 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Game {
   external: string;
   thumb: string;
   cheapest: string;
+}
+
+interface Deal {
+  title: string;
 }
 
 function longTitle(title: string) {
@@ -18,6 +22,7 @@ function longTitle(title: string) {
 export default function App() {
   const [gameTitle, setGameTitle] = useState("");
   const [searchedGames, setSearchedGames] = useState<Game[]>([]);
+  const [gameDeals, setGameDeals] = useState<Deal[]>([]);
 
   const videogameApiLink = `https://www.cheapshark.com/api/1.0/games?title=${gameTitle}&limit=3`;
 
@@ -28,6 +33,16 @@ export default function App() {
         setSearchedGames(data);
       });
   };
+
+  const lastDealsLink = `https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=20&pageSize=3`;
+
+  useEffect(() => {
+    fetch(lastDealsLink)
+      .then((response) => response.json())
+      .then((data) => {
+        setGameDeals(data);
+      });
+  }, []);
 
   return (
     <div className="app">
@@ -60,6 +75,13 @@ export default function App() {
       </div>
       <div className="dealsSection">
         <h1>Latest Deals 🔥</h1>
+        {gameDeals.map((game, key) => {
+          return (
+            <div className="deal" key={key}>
+              <h2>{game.title}</h2>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
