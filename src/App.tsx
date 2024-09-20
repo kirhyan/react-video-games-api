@@ -1,5 +1,6 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import useSWR from "swr";
 
 interface Game {
   external: string;
@@ -9,20 +10,34 @@ interface Game {
 
 interface Deal {
   title: string;
+  thumb: string;
+  normalPrice: string;
+  salePrice: string;
+  savings: string;
 }
 
-function longTitle(title: string) {
-  const limitCharacter = 40;
+function longTitle(title: string, limitCharacter = 30) {
   if (title.length > limitCharacter) {
     return title.slice(0, limitCharacter) + "...";
   }
   return title;
 }
 
+const fetcher = async (url: string): Promise<Deal[]> => {
+  const res = await fetch(url);
+  return res.json();
+
+  // return fetch(url).then((res) => res.json());
+};
+
 export default function App() {
   const [gameTitle, setGameTitle] = useState("");
   const [searchedGames, setSearchedGames] = useState<Game[]>([]);
-  const [gameDeals, setGameDeals] = useState<Deal[]>([]);
+
+  const { data, error, isLoading } = useSWR(
+    "https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=20&pageSize=3",
+    fetcher
+  );
 
   const videogameApiLink = `https://www.cheapshark.com/api/1.0/games?title=${gameTitle}&limit=3`;
 
@@ -34,7 +49,7 @@ export default function App() {
       });
   };
 
-  const lastDealsLink = `https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=20&pageSize=3`;
+  /*const lastDealsLink = `https://www.cheapshark.com/api/1.0/deals?storeID=1&upperPrice=20&pageSize=3`;
 
   useEffect(() => {
     fetch(lastDealsLink)
@@ -42,7 +57,28 @@ export default function App() {
       .then((data) => {
         setGameDeals(data);
       });
-  }, []);
+  }, []);*/
+
+  let latestDeals = null;
+  if (isLoading) {
+    latestDeals = <p>Loading...</p>;
+  } else if (error) {
+    latestDeals = <p>There was an error</p>;
+  } else if (data) {
+    latestDeals = data.map((game, key) => {
+      return (
+        <div className="deal" key={key}>
+          <h3>{longTitle(game.title)}</h3>
+          <img src={game.thumb} />
+          <p>Before: </p>
+          <p className="normalPrice">{game.normalPrice}$</p>
+          <p>Now: </p>
+          <p>{game.salePrice}$</p>
+          <h3>YOU SAVE {game.savings.slice(0, 2)}%</h3>
+        </div>
+      );
+    });
+  }
 
   return (
     <div className="app">
@@ -55,7 +91,7 @@ export default function App() {
             setGameTitle(event.target.value);
           }}
           onKeyDown={(event) => {
-            if (event.keyCode === 13) {
+            if (event.code === "Enter") {
               return searchGame();
             }
           }}
@@ -75,13 +111,7 @@ export default function App() {
       </div>
       <div className="dealsSection">
         <h1>Latest Deals 🔥</h1>
-        {gameDeals.map((game, key) => {
-          return (
-            <div className="deal" key={key}>
-              <h2>{game.title}</h2>
-            </div>
-          );
-        })}
+        <div className="dealsContainer">{latestDeals}</div>
       </div>
     </div>
   );
