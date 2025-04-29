@@ -1,101 +1,172 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #ffedda;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0;
+  overflow: hidden;
+}
+
 .app {
-  text-align: center;
-  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;
+  padding: 2rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  margin-top: 30px;
+  overflow-y: auto;
 }
 
 h1 {
-  font-size: 45px;
+  font-size: 2.5rem;
+  color: #ff6f61;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
 }
 
 .searchSection {
-  flex: 50%;
   width: 100%;
+  background-color: #ffd6d1;
+  padding: 2.5rem;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
-  align-items: center;
   flex-direction: column;
-  color: white;
-  background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%);
-}
-
-input,
-button {
-  width: 300px;
-  height: 50px;
-  border: none;
-  border-radius: 8px;
-  margin: 20px;
-  font-size: 22px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
 }
 
 input {
-  padding-left: 10px;
+  width: 100%;
+  max-width: 400px;
+  height: 50px;
+  border-radius: 8px;
+  border: 2px solid #ff6f61;
+  padding: 0 15px;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #ff6f61;
+  outline: none;
 }
 
 button {
+  width: 250px;
+  height: 50px;
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff4b38;
 }
 
 .searchedGames {
-  width: 100%;
-  height: 150px;
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
-  margin-top: 30px;
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+  width: 100%;
 }
 
 .games {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
   width: 200px;
-  height: 200px;
-  margin: 20px;
-  align-content: center;
-  border-radius: 7px;
-  background-color: white;
-  color: black;
-  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.games:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
 .games img {
-  width: 70%;
-  margin-top: 10px;
+  width: 80%;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+.games h3 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #333;
 }
 
 .dealsSection {
   width: 100%;
-  flex: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 3rem;
+  text-align: center;
 }
 
 .dealsContainer {
   display: flex;
-  flex-direction: row;
-  margin: 20px;
+  flex-wrap: wrap;
   justify-content: center;
-  padding: 10px;
-  width: 100%;
-  column-gap: 8cap;
+  gap: 2rem;
+  margin-top: 2rem;
 }
 
 .deal {
-  background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%);
-  width: 300px;
-  height: 400px;
-  border-radius: 7px;
-  color: white;
+  background-color: #ffe5e1;
+  color: #333;
+  width: 250px;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.deal:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .deal img {
   width: 80%;
+  margin-bottom: 10px;
+  border-radius: 8px;
 }
 
 .normalPrice {
-  text-decoration-line: line-through;
+  text-decoration: line-through;
+  color: #b0bec5;
+}
+
+.savings {
+  color: #ff6f61;
+  font-weight: bold;
 }
